@@ -1,0 +1,83 @@
+[share_to_facebook]
+other="Share to Facebook"
+
+[share_to_linkedin]
+other="Share to LinkedIn"
+
+[friend_links]
+other="Friends"
+
+[404]
+other="We are sorry, but the page could not be found."
+
+[subscribe]
+other="Subscribe"
+
+[email_address]
+other="Email Address"
+
+[about]
+other="About"
+
+[share_with_qr_code]
+other="Share with QR Code"
+
+[read_more]
+other="read more..."
+
+[read_my_notes]
+other="Read my learning notes"
+
+[book_notes]
+other="Book Notes"
+
+[book_notes_description]
+other="Learning notes of books I read"
+
+[blog_posts]
+other="Blog Posts"
+
+[blog_posts_description]
+other="My thoughts of life and code"
+
+[good_reads]
+other="Good Reads"
+
+[good_reads_description]
+other="News, blog, and articles I read and find interesting"
+
+[see_all]
+other="See all →"
+
+[focus_area]
+other="Focus Area"
+
+[api_platform]
+other="API Platform"
+
+[api_platform_description]
+other="API Platform is the key to empower collaboration of all businesses"
+
+[software_engineering]
+other="Software Engineering"
+
+[software_engineering_description]
+other="Build software product with high performance, scalability, availability"
+
+[automation]
+other="Automation"
+
+[automation_description]
+other="Automation in build, deploy, test, release processes to boost developer productivity"
+
+[ai]
+other="AI"
+
+[ai_description]
+other="Make AI innovations more accessible to consumers and enterprise"
+
+[learn_more_about_me]
+other="Learn more about me →"
+
+[table_of_contents]
+other="Table of Contents"
