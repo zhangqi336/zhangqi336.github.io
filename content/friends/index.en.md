@@ -1,4 +1,0 @@
----
-title: Friends
-type: friends
----
