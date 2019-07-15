@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en-US" class="has-navbar-fixed-top">
+
+<head>
+    <meta name="generator" content="Hugo 0.40.1" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>linux 内存模型 | Hao Jinzhang 博客</title>
+
+     
+
+    
+    <meta name="author" content="Hao Jinzhang"> 
+
+    
+    
+    
+    
+    
+    
+    
+<meta itemprop="name" content="linux 内存模型">
+<meta itemprop="description" content="Linux内核中有三种内存模型：FLAT memory model， Discontiguous Memory Model，Sparse Memory Model 1. FLAT memory model CPU访问物理地址空间时， 物理地址空间是连续的">
+
+
+<meta itemprop="datePublished" content="2019-06-26T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-06-26T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="2654">
+
+
+
+<meta itemprop="keywords" content="" />
+
+    <meta property="og:title" content="linux 内存模型" />
+<meta property="og:description" content="Linux内核中有三种内存模型：FLAT memory model， Discontiguous Memory Model，Sparse Memory Model 1. FLAT memory model CPU访问物理地址空间时， 物理地址空间是连续的" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zhangqi336.github.io./zh/posts/2019/linux-%E5%86%85%E6%A0%B8%E8%AE%BE%E8%AE%A1/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" />
+
+
+
+<meta property="article:published_time" content="2019-06-26T00:00:00&#43;00:00"/>
+
+<meta property="article:modified_time" content="2019-06-26T00:00:00&#43;00:00"/>
+
+<meta property="og:site_name" content="Hao Jinzhang 博客" />
+
+
+
+
+
+
+
+
+
+<meta property="og:image" content="https://zhangqi336.github.io./images/og-image.png"/>
+    
+    
+    <meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://zhangqi336.github.io./images/og-image.png"/>
+
+<meta name="twitter:title" content="linux 内存模型"/>
+<meta name="twitter:description" content="Linux内核中有三种内存模型：FLAT memory model， Discontiguous Memory Model，Sparse Memory Model 1. FLAT memory model CPU访问物理地址空间时， 物理地址空间是连续的"/>
+
+    
+     
+    
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-577792-7', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='//www.google-analytics.com/analytics.js'></script>
+ 
+    
+    <link rel="canonical" href="https://zhangqi336.github.io./zh/posts/2019/linux-%E5%86%85%E6%A0%B8%E8%AE%BE%E8%AE%A1/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/"> 
+
+     
+
+     
+    
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://zhangqi336.github.io./images/favicons/apple-touch-icon-57x57.png" />
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://zhangqi336.github.io./images/favicons/apple-touch-icon-114x114.png" />
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://zhangqi336.github.io./images/favicons/apple-touch-icon-72x72.png" />
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://zhangqi336.github.io./images/favicons/apple-touch-icon-144x144.png" />
+<link rel="apple-touch-icon-precomposed" sizes="60x60" href="https://zhangqi336.github.io./images/favicons/apple-touch-icon-60x60.png" />
+<link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://zhangqi336.github.io./images/favicons/apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon-precomposed" sizes="76x76" href="https://zhangqi336.github.io./images/favicons/apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon-precomposed" sizes="152x152" href="https://zhangqi336.github.io./images/favicons/apple-touch-icon-152x152.png" />
+<link rel="icon" type="image/png" href="https://zhangqi336.github.io./images/favicons/favicon-196x196.png" sizes="196x196" />
+<link rel="icon" type="image/png" href="https://zhangqi336.github.io./images/favicons/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/png" href="https://zhangqi336.github.io./images/favicons/favicon-32x32.png" sizes="32x32" />
+<link rel="icon" type="image/png" href="https://zhangqi336.github.io./images/favicons/favicon-16x16.png" sizes="16x16" />
+<link rel="icon" type="image/png" href="https://zhangqi336.github.io./images/favicons/favicon-128.png" sizes="128x128" />
+<meta name="msapplication-TileColor" content="#3273dc" />
+<meta name="msapplication-TileImage" content="https://zhangqi336.github.io./images/favicons/mstile-144x144.png" />
+<meta name="msapplication-square70x70logo" content="https://zhangqi336.github.io./images/favicons/mstile-70x70.png" />
+<meta name="msapplication-square150x150logo" content="https://zhangqi336.github.io./images/favicons/mstile-150x150.png" />
+<meta name="msapplication-wide310x150logo" content="https://zhangqi336.github.io./images/favicons/mstile-310x150.png" />
+<meta name="msapplication-square310x310logo" content="https://zhangqi336.github.io./images/favicons/mstile-310x310.png" />
+
+    
+    <link rel="stylesheet" href="/css/bulma.css"> 
+    <link rel="stylesheet" href="/css/custom.css"> 
+    <link rel="stylesheet" href="/css/font.css">
+    <script type="text/javascript" src="/js/bulma.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+  </head>
+
+
+<body>
+    <header> <nav class="navbar is-fixed-top is-link">
+  <div class="container">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="/zh">
+        <picture style="height:28px;">
+          <source srcset="/images/square-logo.webp" type="image/webp">
+          <source srcset="/images/square-logo.png" type="image/jpeg">
+          <img src="/images/square-logo.png">
+      </picture>
+      </a>
+      <a class="navbar-item" href="/zh">
+        Hao Jinzhang 博客
+      </a>
+      <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div class="navbar-menu" id="navMenu">
+
+      
+      
+      <div class="navbar-end">
+        
+        <a class="navbar-item" target="blank" href="https://github.com/zhangqi336.github.io.">
+          <span class="icon">
+            <i class="icon-github"></i>
+          </span>
+        </a>
+        
+
+        
+        <a class="navbar-item" target="blank" href="https://www.linkedin.com/in/Stanley">
+          <span class="icon">
+            <i class="icon-linkedin-square"></i>
+          </span>
+        </a>
+        
+        
+        
+        <a class="navbar-item" href='/zh/search'>
+          <span class="icon">
+            <i class="icon-search"></i>
+          </span>
+        </a>
+        <div class="navbar-item">
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+</nav> </header>
+    <main>
+
+<div class="section">
+  <div class="container" itemscope itemtype="http://schema.org/BlogPosting">
+    
+<meta itemprop="name" content="linux 内存模型">
+<meta itemprop="description" content="Linux内核中有三种内存模型：FLAT memory model， Discontiguous Memory Model，Sparse Memory Model 1. FLAT memory model CPU访问物理地址空间时， 物理地址空间是连续的">
+
+
+<meta itemprop="datePublished" content="2019-06-26T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-06-26T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="2654">
+
+
+
+<meta itemprop="keywords" content="" />
+
+    <div class="columns">
+      <div class="column is-8 is-offset-2">
+          <div class="columns">
+              <div class="column is-8 is-offset-2 has-text-centered">
+                <div class="title"><a href="/zh/posts/">文章</a></div>
+                <p class="subtitle">linux内核设计</p>
+              </div>
+            </div>
+            <hr />
+        <p class="title">linux 内存模型</p>
+        <div class="columns is-mobile is-vcentered">
+          <div class="column has-text-grey has-text-weight-semibold">
+            Hao Jinzhang<p class="text is-family-monospace has-text-grey-light">
+  
+2019-06-26
+
+</p>
+          </div>
+          <div class="column has-text-right">
+            <a class="button is-light" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fzhangqi336.github.io.%2fzh%2fposts%2f2019%2flinux-%25E5%2586%2585%25E6%25A0%25B8%25E8%25AE%25BE%25E8%25AE%25A1%2f%25E5%2586%2585%25E5%25AD%2598%25E7%25AE%25A1%25E7%2590%2586%2f" target="_blank" title="分享到Facebook">
+  <span class="icon">
+      <i class="icon-facebook"></i>
+  </span>
+</a>
+<a class="button is-light" href="https://www.linkedin.com/sharing/share-offsite?url=https%3a%2f%2fzhangqi336.github.io.%2fzh%2fposts%2f2019%2flinux-%25E5%2586%2585%25E6%25A0%25B8%25E8%25AE%25BE%25E8%25AE%25A1%2f%25E5%2586%2585%25E5%25AD%2598%25E7%25AE%25A1%25E7%2590%2586%2f" target="_blank"
+  title="分享到LinkedIn">
+  <span class="icon">
+      <i class="icon-linkedin"></i>
+  </span>
+</a>
+<a id="open-qr-code" class="button is-light" href="" title="生成二维码分享">
+  <span class="icon">
+      <i class="icon-qrcode"></i>
+  </span>
+</a>
+<div class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+    <p class="image is-1by1">
+      <img src="https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=https%3a%2f%2fzhangqi336.github.io.%2fzh%2fposts%2f2019%2flinux-%25E5%2586%2585%25E6%25A0%25B8%25E8%25AE%25BE%25E8%25AE%25A1%2f%25E5%2586%2585%25E5%25AD%2598%25E7%25AE%25A1%25E7%2590%2586%2f&choe=UTF-8" alt="">
+    </p>
+  </div>
+  <button class="modal-close is-large" aria-label="close"></button>
+</div>
+<script>
+  document.querySelector('a#open-qr-code').addEventListener('click', function (event) {
+    event.preventDefault();
+    var modal = document.querySelector('.modal');
+    var html = document.querySelector('html');
+    modal.classList.add('is-active');
+    html.classList.add('is-clipped');
+
+    modal.querySelector('.modal-background').addEventListener('click', function (e) {
+      e.preventDefault();
+      modal.classList.remove('is-active');
+      html.classList.remove('is-clipped');
+    });
+
+    modal.querySelector('.modal-close').addEventListener('click', function (e) {
+      e.preventDefault();
+      modal.classList.remove('is-active');
+      html.classList.remove('is-clipped');
+    });
+  });
+</script>
+          </div>
+        </div>
+        <div class="content">
+          
+
+          
+
+<p>Linux内核中有三种内存模型：FLAT memory model， Discontiguous Memory Model，Sparse Memory Model</p>
+
+<h2 id="1-flat-memory-model">1. FLAT memory model</h2>
+
+<p>CPU访问物理地址空间时， 物理地址空间是连续的地址空间。每个物理页帧都是由struct page来管理的，连续的物理地址空间就由连续的page数组来管理。</p>
+
+<p><img src="./flat_mm.gif" alt="flat_mm" />.</p>
+
+<p>## 2. Discontiguous Memory Model<br />
+ CPU访问物理内存时，地址是不连续的。在理解这种内存模型之前，先来看看NUMA架构，NUMA（Non-uniform memory access）是指多处理器在访问内存时，对某个内存地址的访问是和该memory与processor之间的相对位置有关。Discontiguous memory本质上是flat memory内存模型的扩展。</p>
+
+<p><img src="./dis_mm.gif" alt="dis_mm" />.</p>
+
+<p>因此，这种内存模型下，节点数据（struct pglist_data）有多个，宏定义NODE_DATA可以得到指定节点的struct pglist_data。而，每个节点管理的物理内存保存在struct pglist_data 数据结构的node_mem_map成员中（概念类似flat memory中的mem_map）。这时候，从PFN转换到具体的struct page会稍微复杂一点，我们首先要从PFN得到node ID，然后根据这个ID找到对于的pglist_data 数据结构，也就找到了对应的page数组，之后的方法就类似flat memory了。</p>
+
+<h2 id="3-sparse-memory-model">3. Sparse Memory Model</h2>
+
+<p>Memory model也是一个演进过程，刚开始的时候，使用flat memory去抽象一个连续的内存地址空间（mem_maps[]），出现NUMA之后，整个不连续的内存空间被分成若干个node，每个node上是连续的内存地址空间，也就是说，原来的单一的一个mem_maps[]变成了若干个mem_maps[]了。一切看起来已经完美了，但是memory hotplug的出现让原来完美的设计变得不完美了，因为即便是一个node中的mem_maps[]也有可能是不连续了。其实，在出现了sparse memory之后，Discontiguous memory内存模型已经不是那么重要了，按理说sparse memory最终可以替代Discontiguous memory的，这个替代过程正在进行中，4.4的内核仍然是有3中内存模型可以选择。</p>
+
+<p>为什么说sparse memory最终可以替代Discontiguous memory呢？实际上在sparse memory内存模型下，连续的地址空间按照SECTION（例如1G）被分成了一段一段的，其中每一section都是hotplug的，因此sparse memory下，内存地址空间可以被切分的更细，支持更离散的Discontiguous memory。此外，在sparse memory没有出现之前，NUMA和Discontiguous memory总是剪不断，理还乱的关系：NUMA并没有规定其内存的连续性，而Discontiguous memory系统也并非一定是NUMA系统，但是这两种配置都是multi node的。有了sparse memory之后，我们终于可以把内存的连续性和NUMA的概念剥离开来：一个NUMA系统可以是flat memory，也可以是sparse memory，而一个sparse memory系统可以是NUMA，也可以是UMA的。</p>
+
+<p>下面的图片说明了sparse memory是如何管理page frame的（配置了SPARSEMEM_EXTREME）：</p>
+
+<p><img src="./sparse_mm.gif" alt="sparse_mm" />.</p>
+
+<p>（注意：上图中的一个mem_section指针应该指向一个page，而一个page中有若干个struct mem_section数据单元）</p>
+
+<p>整个连续的物理地址空间是按照一个section一个section来切断的，每一个section内部，其memory是连续的（即符合flat memory的特点），因此，mem_map的page数组依附于section结构（struct mem_section）而不是node结构了（struct pglist_data）。当然，无论哪一种memory model，都需要处理PFN和page之间的对应关系，只不过sparse memory多了一个section的概念，让转换变成了PFN&lt;&mdash;&gt;Section&lt;&mdash;&gt;page。</p>
+
+<p>我们首先看看如何从PFN到page结构的转换：kernel中静态定义了一个mem_section的指针数组，一个section中往往包括多个page，因此需要通过右移将PFN转换成section number，用section number做为index在mem_section指针数组可以找到该PFN对应的section数据结构。找到section之后，沿着其section_mem_map就可以找到对应的page数据结构。顺便一提的是，在开始的时候，sparse memory使用了一维的memory_section数组（不是指针数组），这样的实现对于特别稀疏（CONFIG_SPARSEMEM_EXTREME）的系统非常浪费内存。此外，保存指针对hotplug的支持是比较方便的，指针等于NULL就意味着该section不存在。上面的图片描述的是一维mem_section指针数组的情况（配置了SPARSEMEM_EXTREME），对于非SPARSEMEM_EXTREME配置，概念是类似的，具体操作大家可以自行阅读代码。</p>
+
+<p>从page到PFN稍微有一点麻烦，实际上PFN分成两个部分：一部分是section index，另外一个部分是page在该section的偏移。我们需要首先从page得到section index，也就得到对应的memory_section，知道了memory_section也就知道该page在section_mem_map，也就知道了page在该section的偏移，最后可以合成PFN。对于page到section index的转换，sparse memory有2种方案，我们先看看经典的方案，也就是保存在page-&gt;flags中（配置了SECTION_IN_PAGE_FLAGS）。这种方法的最大的问题是page-&gt;flags中的bit数目不一定够用，因为这个flag中承载了太多的信息，各种page flag，node id，zone id现在又增加一个section id，在不同的architecture中无法实现一致性的算法，有没有一种通用的算法呢？这就是CONFIG_SPARSEMEM_VMEMMAP。具体的算法可以参考下图：</p>
+
+<p><img src="./sparse1_mm.gif" alt="sparse1_mm" />.</p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="section has-background-light">
+  <div class="container">
+    <div class="columns">
+      <div class="column has-text-centered">
+        
+<p class="subtitle is-size-6-mobile">
+  关注微信公众号「 <span class="text has-text-info">TONY的BLOG</span> 」<br>即时获取最新动态
+</p>
+<p class="image is-96x96 has-image-centered">
+  <img src="/images/wechat-qr-code.jpg">
+</p>
+
+
+      </div>
+    </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-8 is-offset-2 has-text-centered">
+        
+        <article>
+          <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "zhangqi336.github.io." + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </article>
+        
+      </div>
+    </div>
+</section>
+
+</main>
+    <footer>
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <p class="text is-uppercase has-text-grey">
+        © 2018-2019 Stanley 好紧张
+      </p>
+      <p class="text">
+        <a href='/zh/about' class="has-text-grey footer-link"> 关于</a>
+        <a href='/zh/friends' class="has-text-grey footer-link">友情链接</a>
+        <a href="/index.xml" class="has-text-grey footer-link">RSS</a>
+      </p>
+    </div>
+  </div>
+</footer>
+</footer>
+
+</body>
+
+</html>

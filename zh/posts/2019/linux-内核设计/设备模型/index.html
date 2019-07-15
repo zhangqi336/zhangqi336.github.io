@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en-US" class="has-navbar-fixed-top">
+
+<head>
+    <meta name="generator" content="Hugo 0.40.1" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>linux DTS | Hao Jinzhang 博客</title>
+
+     
+
+    
+    <meta name="author" content="Hao Jinzhang"> 
+
+    
+    
+    
+    
+    
+    
+    
+<meta itemprop="name" content="linux DTS">
+<meta itemprop="description" content="我想从下面三个方面来了解Device Tree： 1、为何要引入Device Tree，这个机制是用来解决什么问题的？ 2、Device Tree的基">
+
+
+<meta itemprop="datePublished" content="2019-06-26T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-06-26T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="8474">
+
+
+
+<meta itemprop="keywords" content="" />
+
+    <meta property="og:title" content="linux DTS" />
+<meta property="og:description" content="我想从下面三个方面来了解Device Tree： 1、为何要引入Device Tree，这个机制是用来解决什么问题的？ 2、Device Tree的基" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zhangqi336.github.io./zh/posts/2019/linux-%E5%86%85%E6%A0%B8%E8%AE%BE%E8%AE%A1/%E8%AE%BE%E5%A4%87%E6%A8%A1%E5%9E%8B/" />
+
+
+
+<meta property="article:published_time" content="2019-06-26T00:00:00&#43;00:00"/>
+
+<meta property="article:modified_time" content="2019-06-26T00:00:00&#43;00:00"/>
+
+<meta property="og:site_name" content="Hao Jinzhang 博客" />
+
+
+
+
+
+
+
+
+
+<meta property="og:image" content="https://zhangqi336.github.io./images/og-image.png"/>
+    
+    
+    <meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://zhangqi336.github.io./images/og-image.png"/>
+
+<meta name="twitter:title" content="linux DTS"/>
+<meta name="twitter:description" content="我想从下面三个方面来了解Device Tree： 1、为何要引入Device Tree，这个机制是用来解决什么问题的？ 2、Device Tree的基"/>
+
+    
+     
+    
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-577792-7', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='//www.google-analytics.com/analytics.js'></script>
+ 
+    
+    <link rel="canonical" href="https://zhangqi336.github.io./zh/posts/2019/linux-%E5%86%85%E6%A0%B8%E8%AE%BE%E8%AE%A1/%E8%AE%BE%E5%A4%87%E6%A8%A1%E5%9E%8B/"> 
+
+     
+
+     
+    
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://zhangqi336.github.io./images/favicons/apple-touch-icon-57x57.png" />
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://zhangqi336.github.io./images/favicons/apple-touch-icon-114x114.png" />
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://zhangqi336.github.io./images/favicons/apple-touch-icon-72x72.png" />
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://zhangqi336.github.io./images/favicons/apple-touch-icon-144x144.png" />
+<link rel="apple-touch-icon-precomposed" sizes="60x60" href="https://zhangqi336.github.io./images/favicons/apple-touch-icon-60x60.png" />
+<link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://zhangqi336.github.io./images/favicons/apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon-precomposed" sizes="76x76" href="https://zhangqi336.github.io./images/favicons/apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon-precomposed" sizes="152x152" href="https://zhangqi336.github.io./images/favicons/apple-touch-icon-152x152.png" />
+<link rel="icon" type="image/png" href="https://zhangqi336.github.io./images/favicons/favicon-196x196.png" sizes="196x196" />
+<link rel="icon" type="image/png" href="https://zhangqi336.github.io./images/favicons/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/png" href="https://zhangqi336.github.io./images/favicons/favicon-32x32.png" sizes="32x32" />
+<link rel="icon" type="image/png" href="https://zhangqi336.github.io./images/favicons/favicon-16x16.png" sizes="16x16" />
+<link rel="icon" type="image/png" href="https://zhangqi336.github.io./images/favicons/favicon-128.png" sizes="128x128" />
+<meta name="msapplication-TileColor" content="#3273dc" />
+<meta name="msapplication-TileImage" content="https://zhangqi336.github.io./images/favicons/mstile-144x144.png" />
+<meta name="msapplication-square70x70logo" content="https://zhangqi336.github.io./images/favicons/mstile-70x70.png" />
+<meta name="msapplication-square150x150logo" content="https://zhangqi336.github.io./images/favicons/mstile-150x150.png" />
+<meta name="msapplication-wide310x150logo" content="https://zhangqi336.github.io./images/favicons/mstile-310x150.png" />
+<meta name="msapplication-square310x310logo" content="https://zhangqi336.github.io./images/favicons/mstile-310x310.png" />
+
+    
+    <link rel="stylesheet" href="/css/bulma.css"> 
+    <link rel="stylesheet" href="/css/custom.css"> 
+    <link rel="stylesheet" href="/css/font.css">
+    <script type="text/javascript" src="/js/bulma.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+  </head>
+
+
+<body>
+    <header> <nav class="navbar is-fixed-top is-link">
+  <div class="container">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="/zh">
+        <picture style="height:28px;">
+          <source srcset="/images/square-logo.webp" type="image/webp">
+          <source srcset="/images/square-logo.png" type="image/jpeg">
+          <img src="/images/square-logo.png">
+      </picture>
+      </a>
+      <a class="navbar-item" href="/zh">
+        Hao Jinzhang 博客
+      </a>
+      <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div class="navbar-menu" id="navMenu">
+
+      
+      
+      <div class="navbar-end">
+        
+        <a class="navbar-item" target="blank" href="https://github.com/zhangqi336.github.io.">
+          <span class="icon">
+            <i class="icon-github"></i>
+          </span>
+        </a>
+        
+
+        
+        <a class="navbar-item" target="blank" href="https://www.linkedin.com/in/Stanley">
+          <span class="icon">
+            <i class="icon-linkedin-square"></i>
+          </span>
+        </a>
+        
+        
+        
+        <a class="navbar-item" href='/zh/search'>
+          <span class="icon">
+            <i class="icon-search"></i>
+          </span>
+        </a>
+        <div class="navbar-item">
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+</nav> </header>
+    <main>
+
+<div class="section">
+  <div class="container" itemscope itemtype="http://schema.org/BlogPosting">
+    
+<meta itemprop="name" content="linux DTS">
+<meta itemprop="description" content="我想从下面三个方面来了解Device Tree： 1、为何要引入Device Tree，这个机制是用来解决什么问题的？ 2、Device Tree的基">
+
+
+<meta itemprop="datePublished" content="2019-06-26T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-06-26T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="8474">
+
+
+
+<meta itemprop="keywords" content="" />
+
+    <div class="columns">
+      <div class="column is-8 is-offset-2">
+          <div class="columns">
+              <div class="column is-8 is-offset-2 has-text-centered">
+                <div class="title"><a href="/zh/posts/">文章</a></div>
+                <p class="subtitle">linux内核设计</p>
+              </div>
+            </div>
+            <hr />
+        <p class="title">linux DTS</p>
+        <div class="columns is-mobile is-vcentered">
+          <div class="column has-text-grey has-text-weight-semibold">
+            Hao Jinzhang<p class="text is-family-monospace has-text-grey-light">
+  
+2019-06-26
+
+</p>
+          </div>
+          <div class="column has-text-right">
+            <a class="button is-light" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fzhangqi336.github.io.%2fzh%2fposts%2f2019%2flinux-%25E5%2586%2585%25E6%25A0%25B8%25E8%25AE%25BE%25E8%25AE%25A1%2f%25E8%25AE%25BE%25E5%25A4%2587%25E6%25A8%25A1%25E5%259E%258B%2f" target="_blank" title="分享到Facebook">
+  <span class="icon">
+      <i class="icon-facebook"></i>
+  </span>
+</a>
+<a class="button is-light" href="https://www.linkedin.com/sharing/share-offsite?url=https%3a%2f%2fzhangqi336.github.io.%2fzh%2fposts%2f2019%2flinux-%25E5%2586%2585%25E6%25A0%25B8%25E8%25AE%25BE%25E8%25AE%25A1%2f%25E8%25AE%25BE%25E5%25A4%2587%25E6%25A8%25A1%25E5%259E%258B%2f" target="_blank"
+  title="分享到LinkedIn">
+  <span class="icon">
+      <i class="icon-linkedin"></i>
+  </span>
+</a>
+<a id="open-qr-code" class="button is-light" href="" title="生成二维码分享">
+  <span class="icon">
+      <i class="icon-qrcode"></i>
+  </span>
+</a>
+<div class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+    <p class="image is-1by1">
+      <img src="https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=https%3a%2f%2fzhangqi336.github.io.%2fzh%2fposts%2f2019%2flinux-%25E5%2586%2585%25E6%25A0%25B8%25E8%25AE%25BE%25E8%25AE%25A1%2f%25E8%25AE%25BE%25E5%25A4%2587%25E6%25A8%25A1%25E5%259E%258B%2f&choe=UTF-8" alt="">
+    </p>
+  </div>
+  <button class="modal-close is-large" aria-label="close"></button>
+</div>
+<script>
+  document.querySelector('a#open-qr-code').addEventListener('click', function (event) {
+    event.preventDefault();
+    var modal = document.querySelector('.modal');
+    var html = document.querySelector('html');
+    modal.classList.add('is-active');
+    html.classList.add('is-clipped');
+
+    modal.querySelector('.modal-background').addEventListener('click', function (e) {
+      e.preventDefault();
+      modal.classList.remove('is-active');
+      html.classList.remove('is-clipped');
+    });
+
+    modal.querySelector('.modal-close').addEventListener('click', function (e) {
+      e.preventDefault();
+      modal.classList.remove('is-active');
+      html.classList.remove('is-clipped');
+    });
+  });
+</script>
+          </div>
+        </div>
+        <div class="content">
+          
+
+          
+
+<p>我想从下面三个方面来了解Device Tree：</p>
+
+<p>1、为何要引入Device Tree，这个机制是用来解决什么问题的？</p>
+
+<p>2、Device Tree的基础概念。</p>
+
+<p>3、ARM linux中和Device Tree相关的代码分析。</p>
+
+<h1 id="一-背景">一、 背景</h1>
+
+<p>在引入设备树前，内核中存在大量的各个board specific的源代码，这些源代码给linux内核的维护和发展带来的较大的工作量，增大了内核维护的困难程度，于是有人提出应该把board specific的源代码踢出kernel。所以设备树的机制被提了出来。设备树在本质上改变了原来用hardcode方式将HW 配置信息嵌入到内核代码的方法，改用bootloader传递一个DB的形式，这样可以给kernel带来较大的灵活性，Device Tree的设计目标就是如此。</p>
+
+<p>在描述Device Tree的结构之前，我们先问一个基础问题：是否Device Tree要描述系统中的所有硬件信息？答案是否定的。基本上，那些可以动态探测到的设备是不需要描述的，例如USB device。不过对于SOC上的usb host controller，它是无法动态识别的，需要在device tree中描述。同样的道理，在computer system中，PCI device可以被动态探测到，不需要在device tree中描述，但是PCI bridge如果不能被探测，那么就需要描述之。</p>
+
+<p># 二、基本结构<br />
+   为了了解Device Tree的结构，我们首先给出一个Device Tree的示例：</p>
+
+<blockquote>
+<p>/ o device-tree<br />
+      |- name = &ldquo;device-tree&rdquo;<br />
+      |- model = &ldquo;MyBoardName&rdquo;<br />
+      |- compatible = &ldquo;MyBoardFamilyName&rdquo;<br />
+      |- #address-cells = <2><br />
+      |- #size-cells = <2><br />
+      |- linux,phandle = <0><br />
+      |<br />
+      o cpus<br />
+      | | - name = &ldquo;cpus&rdquo;<br />
+      | | - linux,phandle = <1><br />
+      | | - #address-cells = <1><br />
+      | | - #size-cells = <0><br />
+      | |<br />
+      | o PowerPC,970@0<br />
+      |   |- name = &ldquo;PowerPC,970&rdquo;<br />
+      |   |- device_type = &ldquo;cpu&rdquo;<br />
+      |   |- reg = <0><br />
+      |   |- clock-frequency = <0x5f5e1000><br />
+      |   |- 64-bit<br />
+      |   |- linux,phandle = <2><br />
+      |<br />
+      o memory@0<br />
+      | |- name = &ldquo;memory&rdquo;<br />
+      | |- device_type = &ldquo;memory&rdquo;<br />
+      | |- reg = <0x00000000 0x00000000 0x00000000 0x20000000><br />
+      | |- linux,phandle = <3><br />
+      |<br />
+      o chosen<br />
+        |- name = &ldquo;chosen&rdquo;<br />
+        |- bootargs = &ldquo;root=/dev/sda2&rdquo;<br />
+        |- linux,phandle = <4></p>
+</blockquote>
+
+<p>从上图中可以看出，device tree的基本单元是node。这些node被组织成树状结构，除了root node，每个node都只有一个parent。一个device tree文件中只能有一个root node。每个node中包含了若干的property/value来描述该node的一些特性。每个node用节点名字（node name）标识，节点名字的格式是node-name@unit-address。如果该node没有reg属性（后面会描述这个property），那么该节点名字中必须不能包括@和unit-address。unit-address的具体格式是和设备挂在那个bus上相关。例如对于cpu，其unit-address就是从0开始编址，以此加一。而具体的设备，例如以太网控制器，其unit-address就是寄存器地址。root node的node name是确定的，必须是“/”。</p>
+
+<blockquote>
+<p>/ {<br />
+    compatible = &ldquo;samsung,s3c24xx&rdquo;; －－－－－－－－－－－－－－－－－－－（A）<br />
+    interrupt-parent = &lt;&amp;intc&gt;; －－－－－－－－－－－－－－－－－－－－－－（B）<br />
+    aliases {<br />
+        pinctrl0 = &amp;pinctrl_0; －－－－－－－－－－－－－－－－－－－－－－－－（C）<br />
+    };<br />
+    intc:interrupt-controller@4a000000 { －－－－－－－－－－－－－－－－－－（D）<br />
+        compatible = &ldquo;samsung,s3c2410-irq&rdquo;;<br />
+        reg = <0x4a000000 0x100>;<br />
+        interrupt-controller;<br />
+        #interrupt-cells = <4>;<br />
+    };<br />
+    serial@50000000 { －－－－－－－－－－－－－－－－－－－－－－（E）<br />
+        compatible = &ldquo;samsung,s3c2410-uart&rdquo;;<br />
+        reg = <0x50000000 0x4000>;<br />
+        interrupts = <1 0 4 28>, <1 1 4 28>;<br />
+        status = &ldquo;disabled&rdquo;;<br />
+    };<br />
+    pinctrl_0: pinctrl@56000000 {－－－－－－－－－－－－－－－－－－（F）<br />
+        reg = <0x56000000 0x1000>;<br />
+        wakeup-interrupt-controller {<br />
+            compatible = &ldquo;samsung,s3c2410-wakeup-eint&rdquo;;<br />
+            interrupts = <0 0 0 3>,<br />
+                     <0 0 1 3>,<br />
+                     <0 0 2 3>,<br />
+                     <0 0 3 3>,<br />
+                     <0 0 4 4>,<br />
+                     <0 0 5 4>;<br />
+        };<br />
+    };<br />
+……<br />
+};</p>
+</blockquote>
+
+<p>（A）在描述compatible属性之前要先描述model属性。model属性指明了该设备属于哪个设备生产商的哪一个model。一般而言，我们会给model赋值“manufacturer,model”。例如model = &ldquo;samsung,s3c24xx&rdquo;。samsung是生产商，s3c24xx是model类型，指明了具体的是哪一个系列的SOC。OK，现在我们回到compatible属性，该属性的值是string list，定义了一系列的modle（每个string是一个model）。这些字符串列表被操作系统用来选择用哪一个driver来驱动该设备。假设定义该属性：compatible = “aaaaaa”, “bbbbb&rdquo;。那么操作操作系统可能首先使用aaaaaa来匹配适合的driver，如果没有匹配到，那么使用字符串bbbbb来继续寻找适合的driver，对于本例，compatible = &ldquo;samsung,s3c24xx&rdquo;，这里只定义了一个modle而不是一个list。对于root node，compatible属性是用来匹配machine type的（在device tree代码分析文章中会给出更细致的描述）。对于普通的HW block的节点，例如interrupt-controller，compatible属性是用来匹配适合的driver的。</p>
+
+<p>（B）具体各个HW block的interrupt source是如何物理的连接到interruptcontroller的呢？在dts文件中是用interrupt-parent这个属性来标识的。且慢，这里定义interrupt-parent属性的是root node，难道root node会产生中断到interrupt controller吗？当然不会，只不过如果一个能够产生中断的device node没有定义interrupt-parent的话，其interrupt-parent属性就是跟随parent node。因此，与其在所有的下游设备中定义interrupt-parent，不如统一在root node中定义了。</p>
+
+<p>intc是一个lable，标识了一个device node（在本例中是标识了interrupt-controller@4a000000 这个device node）。实际上，interrupt-parent属性值应该是是一个u32的整数值（这个整数值在Device Tree的范围内唯一识别了一个device node，也就是phandle），不过，在dts文件中中，可以使用类似c语言的Labels and References机制。定义一个lable，唯一标识一个node或者property，后续可以使用&amp;来引用这个lable。DTC会将lable转换成u32的整数值放入到DTB中，用户层面就不再关心具体转换的整数值了。</p>
+
+<p>关于interrupt，我们值得进一步描述。在Device Tree中，有一个概念叫做interrupt tree，也就是说interrupt也是一个树状结构。我们以下图为例（该图来自Power_ePAPR_APPROVED_v1.1）：</p>
+
+<p><img src="./interrupt_tree.gif" alt="interrupt_tree" />.</p>
+
+<p>系统中有一个interrrupt tree的根节点，device1、device2以及PCI host bridge的interrupt line都是连接到root interrupt controller的。PCI host bridge设备中有一些下游的设备，也会产生中断，但是他们的中断都是连接到PCI host bridge上的interrupt controller（术语叫做interrupt nexus），然后报告到root interrupt controller的。每个能产生中断的设备都可以产生一个或者多个interrupt，每个interrupt source（另外一个术语叫做interrupt specifier，描述了interrupt source的信息）都是限定在其所属的interrupt domain中。</p>
+
+<p>在了解了上述的概念后，我们可以回头再看看interrupt-parent这个属性。其实这个属性是建立interrupt tree的关键属性。它指明了设备树中的各个device node如何路由interrupt event。另外，需要提醒的是interrupt controller也是可以级联的，上图中没有表示出来。那么在这种情况下如何定义interrupt tree的root呢？那个没有定义interrupt-parent的interrupt controller就是root。</p>
+
+<p>（C）pinctrl0是一个缩写，他是/pinctrl@56000000的别名。这里同样也是使用了Labels and References机制。</p>
+
+<p>（D）intc（node name是interrupt-controller@4a000000 ，我这里直接使用lable）是描述interrupt controller的device node。根据S3C24xx的datasheet，我们知道interrupt controller的寄存器地址从0x4a000000开始，长度为0x100（实际2451的interrupt的寄存器地址空间没有那么长，0x4a000074是最后一个寄存器），也就是reg属性定义的内容。interrupt-controller属性为空，只是用来标识该node是一个interrupt controller而不是interrupt nexus（interrupt nexus需要在不同的interrupt domains之间进行翻译，需要定义interrupt-map的属性，本文不涉及这部分的内容）。#interrupt-cells 和#address-cells概念是类似的，也就是说，用多少个u32来标识一个interrupt source。我们可以看到，在具体HW block的interrupt定义中都是用了4个u32来表示，例如串口的中断是这样定义的：</p>
+
+<p>interrupts = <1 0 4 28>, <1 1 4 28>;<br />
+（E） 从reg属性可以serial controller寄存器地址从0x50000000 开始，长度为0x4000。对于一个能产生中断的设备，必须定义interrupts这个属性。也可以定义interrupt-parent这个属性，如果不定义，则继承其parent node的interrupt-parent属性。 对于interrupt属性值，各个interrupt controller定义是不一样的，有的用3个u32表示，有的用4个。具体上面的各个数字的解释权归相关的interrupt controller所有。对于中断属性的具体值的描述我们会在device tree的第三份文档－代码分析中描述。</p>
+
+<p>（F）这个node是描述GPIO控制的。这个节点定义了一个wakeup-interrupt-controller 的子节点，用来描述有唤醒功能的中断源。</p>
+
+<p>DTB整体结构</p>
+
+<p>经过Device Tree Compiler编译，Device Tree source file变成了Device Tree Blob（又称作flattened device tree）的格式。Device Tree Blob的数据组织如下图所示：</p>
+
+<p><img src="./dtb.gif" alt="dtb" />.</p>
+
+<p><1> DTB header<br />
+ 对于DTB header，其各个成员解释如下：</p>
+
+<p>👉header field name     (description)<br />
+👉magic      (用来识别DTB的。通过这个magic，kernel可以确定bootloader传递的参数block是一个DTB还是tag list)</p>
+
+<p>👉totalsize   (DTB的total size)</p>
+
+<p>👉off_dt_struct  （device tree structure block的offset）</p>
+
+<p>👉off_dt_strings （device tree strings block的offset）</p>
+
+<p>👉off_mem_rsvmap （offset to memory reserve map。有些系统，我们也许会保留一些memory有特殊用途（例如DTB或者initrd image），或者在有些DSP+ARM的SOC platform上，有写memory被保留用于ARM和DSP进行信息交互。这些保留内存不会进入内存管理系统）</p>
+
+<p>👉version    （该DTB的版本）</p>
+
+<p>👉last_comp_version  （兼容版本信息）</p>
+
+<p>👉boot_cpuid_phys    （我们在哪一个CPU（用ID标识）上booting）<br />
+👉dt_strings_size    （device tree strings block的size。和off_dt_strings一起确定了strings block在内存中的位置）</p>
+
+<p>dt_struct_size     （ device tree structure block的size。和off_dt_struct一起确定了device tree structure block在内存中的位置）</p>
+
+<p><2> memory reserve map的格式描述</p>
+
+<p>这个区域包括了若干的reserve memory描述符。每个reserve memory描述符是由address和size组成。其中address和size都是用U64来描述。</p>
+
+<p><3> device tree structure block的格式描述</p>
+
+<p>device tree structure block区域是由若干的分片组成，每个分片开始位置都是保存了token，以此来描述该分片的属性和内容。共计有5种token：</p>
+
+<p>（1）FDT_BEGIN_NODE (0x00000001)。该token描述了一个node的开始位置，紧挨着该token的就是node name（包括unit address）</p>
+
+<p>（2）FDT_END_NODE (0x00000002)。该token描述了一个node的结束位置。</p>
+
+<p>（3）FDT_PROP (0x00000003)。该token描述了一个property的开始位置，该token之后是两个u32的数据，分别是length和name offset。length表示该property value data的size。name offset表示该属性字符串在device tree strings block的偏移值。length和name offset之后就是长度为length具体的属性值数据。</p>
+
+<p>（4）FDT_NOP (0x00000004)。</p>
+
+<p>（5）FDT_END (0x00000009)。该token标识了一个DTB的结束位置。</p>
+
+<p>一个可能的DTB的结构如下：</p>
+
+<p>（1）若干个FDT_NOP（可选）</p>
+
+<p>（2）FDT_BEGIN_NODE</p>
+
+<pre><code> node name
+ paddings
+</code></pre>
+
+<p>（3）若干属性定义。</p>
+
+<p>（4）若干子节点定义。（被FDT_BEGIN_NODE和FDT_END_NODE包围）</p>
+
+<p>（5）若干个FDT_NOP（可选）</p>
+
+<p>（6）FDT_END_NODE</p>
+
+<p>（7）FDT_END</p>
+
+<p><4> device tree strings bloc的格式描述</p>
+
+<p>device tree strings bloc定义了各个node中使用的属性的字符串表。由于很多属性会出现在多个node中，因此，所有的属性字符串组成了一个string block。这样可以压缩DTB的size。</p>
+
+<h2 id="三-代码分析">三、代码分析</h2>
+
+<p>介绍Device Tree相关的数据流，对对ARM linux kernel的代码进行解析。数据流包括：<br />
+  1、初始化流程。也就是扫描dtb并将其转换成Device Tree Structure。<br />
+  2、传递运行时参数传递以及platform的识别流程分析<br />
+  3、如何将Device Tree Structure并入linux kernel的设备驱动模型。</p>
+
+<p><1> Device Tree完成运行时参数传递以及platform的识别功能<br />
+   dtb地址的传递可以通过bootloader告诉内核（CONFIG_ARM_ATAG_DTB_COMPAT），也可以在制作内核镜像的时候引进 CONFIG_ARM_APPENDED_DTB告诉内核在紧跟着内核的地址里查找DTB文件（cat arch/arm/boot/dts/at91sam9x35ek.dtb &gt;&gt; arch/arm/boot/zImage），内核中对DTB结构的处理流程从以下函数开始(start_kernel()-&gt;setup_arch()-&gt;setup_machine_fdt()-&gt;early_init_dt_scan_nodes())</p>
+
+<blockquote>
+<p>void <strong>init setup_arch(char **cmdline_p)<br />
+{<br />
+    const struct machine_desc *mdesc;<br />
+……<br />
+    mdesc = setup_machine_fdt(</strong>atags_pointer);<br />
+    if (!mdesc)<br />
+        mdesc = setup_machine_tags(__atags_pointer, __machine_arch_type);<br />
+    machine_desc = mdesc;<br />
+    machine_name = mdesc-&gt;name;<br />
+……<br />
+}</p>
+</blockquote>
+
+<p>对于如何确定HW platform这个问题，旧的方法是静态定义若干的machine描述符（struct machine_desc ），在启动过程中，通过machine type ID作为索引，在这些静态定义的machine描述符中扫描，找到那个ID匹配的描述符。在新的内核中，首先使用setup_machine_fdt来setup machine描述符，如果返回NULL，才使用传统的方法setup_machine_tags来setup machine描述符。传统的方法需要给出<strong>machine_arch_type（bootloader通过r1寄存器传递给kernel的）和tag list的地址（用来进行tag parse）。</strong>machine_arch_type用来寻找machine描述符；tag list用于运行时参数的传递。随着内核的不断发展，相信有一天linux kernel会完全抛弃tag list的机制。</p>
+
+<p><2> 匹配platform（machine描述符）</p>
+
+<p>setup_machine_fdt函数的功能就是根据Device Tree的信息，找到最适合的machine描述符。具体代码如下：</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#204a87;font-weight:bold">const</span> <span style="color:#204a87;font-weight:bold">struct</span> <span style="color:#000">machine_desc</span> <span style="color:#ce5c00;font-weight:bold">*</span> <span style="color:#000">__init</span> <span style="color:#000">setup_machine_fdt</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">unsigned</span> <span style="color:#204a87;font-weight:bold">int</span> <span style="color:#000">dt_phys</span><span style="color:#000;font-weight:bold">)</span> 
+<span style="color:#000;font-weight:bold">{</span> 
+    <span style="color:#204a87;font-weight:bold">const</span> <span style="color:#204a87;font-weight:bold">struct</span> <span style="color:#000">machine_desc</span> <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">mdesc</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">mdesc_best</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#204a87">NULL</span><span style="color:#000;font-weight:bold">;</span>
+    <span style="color:#204a87;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#ce5c00;font-weight:bold">!</span><span style="color:#000">dt_phys</span> <span style="color:#ce5c00;font-weight:bold">||</span> <span style="color:#000">early_init_dt_verify</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">phys_to_virt</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">dt_phys</span><span style="color:#000;font-weight:bold">)))</span> 
+        <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#204a87">NULL</span><span style="color:#000;font-weight:bold">;</span>
+    <span style="color:#000">mdesc</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">of_flat_dt_match_machine</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">mdesc_best</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">arch_get_next_mach</span><span style="color:#000;font-weight:bold">);</span>
+    <span style="color:#204a87;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#ce5c00;font-weight:bold">!</span><span style="color:#000">mdesc</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>  
+        <span style="color:#a40000">出错处理</span> 
+    <span style="color:#000;font-weight:bold">}</span>
+    <span style="color:#8f5902;font-style:italic">/* We really don&#39;t want to do this, but sometimes firmware provides buggy data */</span>
+    <span style="color:#204a87;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">mdesc</span><span style="color:#ce5c00;font-weight:bold">-&gt;</span><span style="color:#000">dt_fixup</span><span style="color:#000;font-weight:bold">)</span>
+        <span style="color:#000">mdesc</span><span style="color:#ce5c00;font-weight:bold">-&gt;</span><span style="color:#000">dt_fixup</span><span style="color:#000;font-weight:bold">();</span>
+
+    <span style="color:#000">early_init_dt_scan_nodes</span><span style="color:#000;font-weight:bold">();</span>
+
+    <span style="color:#8f5902;font-style:italic">/* Change machine number to match the mdesc we&#39;re using */</span> 
+    <span style="color:#000">__machine_arch_type</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">mdesc</span><span style="color:#ce5c00;font-weight:bold">-&gt;</span><span style="color:#000">nr</span><span style="color:#000;font-weight:bold">;</span>
+    <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">mdesc</span><span style="color:#000;font-weight:bold">;</span> 
+<span style="color:#000;font-weight:bold">}</span></code></pre></div>
+<p>early_init_dt_scan函数有两个功能，一个是为后续的DTB scan进行准备工作，另外一个是运行时参数传递。</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#8f5902;font-style:italic">/* of_flat_dt_match_machine - Iterate match tables to find matching machine.
+</span><span style="color:#8f5902;font-style:italic"> * @default_match: A machine specific ptr to return in case of no match.
+</span><span style="color:#8f5902;font-style:italic">* @get_next_compat: callback function to return next compatible match table.
+</span><span style="color:#8f5902;font-style:italic"> *
+</span><span style="color:#8f5902;font-style:italic"> * Iterate through machine match tables to find the best match for the machine
+</span><span style="color:#8f5902;font-style:italic"> * compatible string in the FDT.
+</span><span style="color:#8f5902;font-style:italic"> */</span>
+<span style="color:#204a87;font-weight:bold">const</span> <span style="color:#204a87;font-weight:bold">void</span> <span style="color:#ce5c00;font-weight:bold">*</span> <span style="color:#000">__init</span> <span style="color:#000">of_flat_dt_match_machine</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">const</span> <span style="color:#204a87;font-weight:bold">void</span> <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">default_match</span><span style="color:#000;font-weight:bold">,</span>
+        <span style="color:#204a87;font-weight:bold">const</span> <span style="color:#204a87;font-weight:bold">void</span> <span style="color:#ce5c00;font-weight:bold">*</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">get_next_compat</span><span style="color:#000;font-weight:bold">)(</span><span style="color:#204a87;font-weight:bold">const</span> <span style="color:#204a87;font-weight:bold">char</span> <span style="color:#ce5c00;font-weight:bold">*</span> <span style="color:#204a87;font-weight:bold">const</span><span style="color:#ce5c00;font-weight:bold">**</span><span style="color:#000;font-weight:bold">))</span></code></pre></div>
+<p>of_flat_dt_match_machine是在machine描述符的列表中scan，找到最合适的那个machine描述符。我们首先看如何组成machine描述符的列表。和传统的方法类似，也是静态定义的。DT_MACHINE_START和MACHINE_END用来定义一个machine描述符。编译的时候，compiler会把这些machine descriptor放到一个特殊的段中（.arch.info.init），形成machine描述符的列表。machine描述符用下面的数据结构来标识（删除了不相关的member）：</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#204a87;font-weight:bold">struct</span> <span style="color:#000">machine_desc</span> <span style="color:#000;font-weight:bold">{</span> 
+    <span style="color:#204a87;font-weight:bold">unsigned</span> <span style="color:#204a87;font-weight:bold">int</span>        <span style="color:#000">nr</span><span style="color:#000;font-weight:bold">;</span>        <span style="color:#8f5902;font-style:italic">/* architecture number    */</span> 
+    <span style="color:#204a87;font-weight:bold">const</span> <span style="color:#204a87;font-weight:bold">char</span> <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#204a87;font-weight:bold">const</span>     <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">dt_compat</span><span style="color:#000;font-weight:bold">;</span>    <span style="color:#8f5902;font-style:italic">/* array of device tree &#39;compatible&#39; strings    */</span>
+<span style="color:#a40000">……</span>
+
+   <span style="color:#000;font-weight:bold">};</span></code></pre></div>
+<p>nr成员就是过去使用的machine type ID。内核machine描述符的table有若干个entry，每个都有自己的ID。bootloader传递了machine type ID，指明使用哪一个machine描述符。目前匹配machine描述符使用compatible strings，也就是dt_compat成员，这是一个string list，定义了这个machine所支持的列表。在扫描machine描述符列表的时候需要不断的获取下一个machine描述符的compatible字符串的信息，具体的代码如下：</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#204a87;font-weight:bold">static</span> <span style="color:#204a87;font-weight:bold">const</span> <span style="color:#204a87;font-weight:bold">void</span> <span style="color:#ce5c00;font-weight:bold">*</span> <span style="color:#000">__init</span> <span style="color:#000">arch_get_next_mach</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">const</span> <span style="color:#204a87;font-weight:bold">char</span> <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#204a87;font-weight:bold">const</span> <span style="color:#ce5c00;font-weight:bold">**</span><span style="color:#000">match</span><span style="color:#000;font-weight:bold">)</span> 
+<span style="color:#000;font-weight:bold">{</span> 
+    <span style="color:#204a87;font-weight:bold">static</span> <span style="color:#204a87;font-weight:bold">const</span> <span style="color:#204a87;font-weight:bold">struct</span> <span style="color:#000">machine_desc</span> <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">mdesc</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">__arch_info_begin</span><span style="color:#000;font-weight:bold">;</span> 
+    <span style="color:#204a87;font-weight:bold">const</span> <span style="color:#204a87;font-weight:bold">struct</span> <span style="color:#000">machine_desc</span> <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">m</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">mdesc</span><span style="color:#000;font-weight:bold">;</span>
+
+    <span style="color:#204a87;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">m</span> <span style="color:#ce5c00;font-weight:bold">&gt;=</span> <span style="color:#000">__arch_info_end</span><span style="color:#000;font-weight:bold">)</span> 
+        <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#204a87">NULL</span><span style="color:#000;font-weight:bold">;</span>
+
+    <span style="color:#000">mdesc</span><span style="color:#ce5c00;font-weight:bold">++</span><span style="color:#000;font-weight:bold">;</span> 
+    <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">match</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">m</span><span style="color:#ce5c00;font-weight:bold">-&gt;</span><span style="color:#000">dt_compat</span><span style="color:#000;font-weight:bold">;</span> 
+    <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">m</span><span style="color:#000;font-weight:bold">;</span> 
+<span style="color:#000;font-weight:bold">}</span></code></pre></div>
+<p>__arch_info_begin指向machine描述符列表第一个entry。通过mdesc++不断的移动machine描述符指针（Note：mdesc是static的）。match返回了该machine描述符的compatible string list。具体匹配的算法倒是很简单，就是比较字符串而已，一个是root node的compatible字符串列表，一个是machine描述符的compatible字符串列表，得分最低的（最匹配的）就是我们最终选定的machine type。</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#204a87;font-weight:bold">void</span> <span style="color:#000">__init</span> <span style="color:#000">early_init_dt_scan_nodes</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">void</span><span style="color:#000;font-weight:bold">)</span>
+<span style="color:#000;font-weight:bold">{</span>
+    <span style="color:#8f5902;font-style:italic">/* Retrieve various information from the /chosen node */</span>
+    <span style="color:#8f5902;font-style:italic">/* 扫描 /chosen node，保存运行时参数（bootargs）到boot_command_line，此外，还处理initrd相关的property，并保存在initrd_start和initrd_end这两个全局变量中 */</span> 
+    <span style="color:#000">of_scan_flat_dt</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">early_init_dt_scan_chosen</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">boot_command_line</span><span style="color:#000;font-weight:bold">);</span>
+
+    <span style="color:#8f5902;font-style:italic">/* Initialize {size,address}-cells info */</span>
+    <span style="color:#8f5902;font-style:italic">/* 扫描根节点，获取 {size,address}-cells信息，并保存在dt_root_size_cells和dt_root_addr_cells全局变量中 */</span> 
+    <span style="color:#000">of_scan_flat_dt</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">early_init_dt_scan_root</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87">NULL</span><span style="color:#000;font-weight:bold">);</span>
+
+    <span style="color:#8f5902;font-style:italic">/* Setup memory, calling early_init_dt_add_memory_arch */</span>
+    <span style="color:#8f5902;font-style:italic">/* 扫描DTB中的memory node，并把相关信息保存在meminfo中，全局变量meminfo保存了系统内存相关的信息。*/</span> 
+    <span style="color:#000">of_scan_flat_dt</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">early_init_dt_scan_memory</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87">NULL</span><span style="color:#000;font-weight:bold">);</span>
+<span style="color:#000;font-weight:bold">}</span></code></pre></div>
+<p>在系统初始化的过程中，我们需要将DTB转换成节点是device_node的树状结构，以便后续方便操作。具体的代码位于setup_arch-&gt;unflatten_device_tree中。</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#8f5902;font-style:italic">/**
+</span><span style="color:#8f5902;font-style:italic"> * unflatten_device_tree - create tree of device_nodes from flat blob
+</span><span style="color:#8f5902;font-style:italic"> *
+</span><span style="color:#8f5902;font-style:italic"> * unflattens the device-tree passed by the firmware, creating the
+</span><span style="color:#8f5902;font-style:italic"> * tree of struct device_node. It also fills the &#34;name&#34; and &#34;type&#34;
+</span><span style="color:#8f5902;font-style:italic"> * pointers of the nodes so the normal device-tree walking functions
+</span><span style="color:#8f5902;font-style:italic"> * can be used.
+</span><span style="color:#8f5902;font-style:italic"> */</span>
+<span style="color:#204a87;font-weight:bold">void</span> <span style="color:#000">__init</span> <span style="color:#000">unflatten_device_tree</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">void</span><span style="color:#000;font-weight:bold">)</span>
+<span style="color:#000;font-weight:bold">{</span>
+    <span style="color:#000">__unflatten_device_tree</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">initial_boot_params</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#ce5c00;font-weight:bold">&amp;</span><span style="color:#000">of_root</span><span style="color:#000;font-weight:bold">,</span>
+                <span style="color:#000">early_init_dt_alloc_memory_arch</span><span style="color:#000;font-weight:bold">);</span>
+
+    <span style="color:#8f5902;font-style:italic">/* Get pointer to &#34;/chosen&#34; and &#34;/aliases&#34; nodes for use everywhere */</span>
+    <span style="color:#000">of_alias_scan</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">early_init_dt_alloc_memory_arch</span><span style="color:#000;font-weight:bold">);</span>
+<span style="color:#000;font-weight:bold">}</span></code></pre></div>
+<p>我们用struct device_node 来抽象设备树中的一个节点，具体解释如下：</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#204a87;font-weight:bold">struct</span> <span style="color:#000">device_node</span> <span style="color:#000;font-weight:bold">{</span>
+    <span style="color:#204a87;font-weight:bold">const</span> <span style="color:#204a87;font-weight:bold">char</span> <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">name</span><span style="color:#000;font-weight:bold">;</span> <span style="color:#a40000">－－－－－－－－－－－－－－－－</span><span style="color:#000">device</span> <span style="color:#000">node</span> <span style="color:#000">name</span> 
+    <span style="color:#204a87;font-weight:bold">const</span> <span style="color:#204a87;font-weight:bold">char</span> <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">type</span><span style="color:#000;font-weight:bold">;</span>   <span style="color:#a40000">对应</span><span style="color:#000">device_type的属性</span> 
+    <span style="color:#000">phandle</span> <span style="color:#000">phandle</span><span style="color:#000;font-weight:bold">;</span>    <span style="color:#a40000">对应该节点的</span><span style="color:#000">phandle属性</span> 
+    <span style="color:#204a87;font-weight:bold">const</span> <span style="color:#204a87;font-weight:bold">char</span> <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">full_name</span><span style="color:#000;font-weight:bold">;</span>   <span style="color:#a40000">从“</span><span style="color:#ce5c00;font-weight:bold">/</span><span style="color:#a40000">”开始的，表示该</span><span style="color:#000">node的full</span> <span style="color:#000">path</span>
+    <span style="color:#204a87;font-weight:bold">struct</span> <span style="color:#000">fwnode_handle</span> <span style="color:#000">fwnode</span><span style="color:#000;font-weight:bold">;</span>  
+
+    <span style="color:#204a87;font-weight:bold">struct</span>  <span style="color:#000">property</span> <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">properties</span><span style="color:#000;font-weight:bold">;</span>   <span style="color:#a40000">该节点的属性列表</span> 
+    <span style="color:#204a87;font-weight:bold">struct</span>  <span style="color:#000">property</span> <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">deadprops</span><span style="color:#000;font-weight:bold">;</span>    <span style="color:#a40000">如果需要删除某些属性，</span><span style="color:#000">kernel并非真的删除</span><span style="color:#a40000">，而是挂入到</span><span style="color:#000">deadprops的列表</span> 
+    <span style="color:#204a87;font-weight:bold">struct</span>  <span style="color:#000">device_node</span> <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">parent</span><span style="color:#000;font-weight:bold">;</span>   <span style="color:#000">parent</span><span style="color:#a40000">、</span><span style="color:#000">child以及sibling将所有的device</span> <span style="color:#000">node连接起来</span> 
+    <span style="color:#204a87;font-weight:bold">struct</span>  <span style="color:#000">device_node</span> <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">child</span><span style="color:#000;font-weight:bold">;</span>
+    <span style="color:#204a87;font-weight:bold">struct</span>  <span style="color:#000">device_node</span> <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">sibling</span><span style="color:#000;font-weight:bold">;</span>
+    <span style="color:#204a87;font-weight:bold">struct</span>  <span style="color:#000">kobject</span> <span style="color:#000">kobj</span><span style="color:#000;font-weight:bold">;</span>    
+    <span style="color:#204a87;font-weight:bold">unsigned</span> <span style="color:#204a87;font-weight:bold">long</span> <span style="color:#000">_flags</span><span style="color:#000;font-weight:bold">;</span>
+    <span style="color:#204a87;font-weight:bold">void</span>    <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">data</span><span style="color:#000;font-weight:bold">;</span>
+<span style="color:#8f5902;font-style:italic">#if defined(CONFIG_SPARC)
+</span><span style="color:#8f5902;font-style:italic"></span>    <span style="color:#204a87;font-weight:bold">const</span> <span style="color:#204a87;font-weight:bold">char</span> <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">path_component_name</span><span style="color:#000;font-weight:bold">;</span>
+    <span style="color:#204a87;font-weight:bold">unsigned</span> <span style="color:#204a87;font-weight:bold">int</span> <span style="color:#000">unique_id</span><span style="color:#000;font-weight:bold">;</span>
+    <span style="color:#204a87;font-weight:bold">struct</span> <span style="color:#000">of_irq_controller</span> <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">irq_trans</span><span style="color:#000;font-weight:bold">;</span>
+<span style="color:#8f5902;font-style:italic">#endif
+</span><span style="color:#8f5902;font-style:italic"></span><span style="color:#000;font-weight:bold">};</span></code></pre></div>
+<p>unflatten_device_tree函数的主要功能就是扫描DTB，将device node被组织成：</p>
+
+<p>1、global list。全局变量struct device_node *of_allnodes就是指向设备树的global list</p>
+
+<p>2、tree。</p>
+
+<p>这些功能主要是在__unflatten_device_tree函数中实现，具体代码如下</p>
+
+<p>参考文章： 蜗窝科技，www.wowotech.net。</p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="section has-background-light">
+  <div class="container">
+    <div class="columns">
+      <div class="column has-text-centered">
+        
+<p class="subtitle is-size-6-mobile">
+  关注微信公众号「 <span class="text has-text-info">TONY的BLOG</span> 」<br>即时获取最新动态
+</p>
+<p class="image is-96x96 has-image-centered">
+  <img src="/images/wechat-qr-code.jpg">
+</p>
+
+
+      </div>
+    </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-8 is-offset-2 has-text-centered">
+        
+        <article>
+          <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "zhangqi336.github.io." + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </article>
+        
+      </div>
+    </div>
+</section>
+
+</main>
+    <footer>
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <p class="text is-uppercase has-text-grey">
+        © 2018-2019 Stanley 好紧张
+      </p>
+      <p class="text">
+        <a href='/zh/about' class="has-text-grey footer-link"> 关于</a>
+        <a href='/zh/friends' class="has-text-grey footer-link">友情链接</a>
+        <a href="/index.xml" class="has-text-grey footer-link">RSS</a>
+      </p>
+    </div>
+  </div>
+</footer>
+</footer>
+
+</body>
+
+</html>

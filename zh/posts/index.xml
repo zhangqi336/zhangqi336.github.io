@@ -2,13 +2,32 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>文章 on Hao Jinzhang 博客</title>
-    <link>https://zhangqi336.github.io/zh/posts/</link>
+    <link>https://zhangqi336.github.io./zh/posts/</link>
     <description>Recent content in 文章 on Hao Jinzhang 博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
+    <lastBuildDate>Wed, 26 Jun 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://zhangqi336.github.io/zh/posts/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://zhangqi336.github.io./zh/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>linux DTS</title>
+      <link>https://zhangqi336.github.io./zh/posts/2019/linux-%E5%86%85%E6%A0%B8%E8%AE%BE%E8%AE%A1/%E8%AE%BE%E5%A4%87%E6%A8%A1%E5%9E%8B/</link>
+      <pubDate>Wed, 26 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhangqi336.github.io./zh/posts/2019/linux-%E5%86%85%E6%A0%B8%E8%AE%BE%E8%AE%A1/%E8%AE%BE%E5%A4%87%E6%A8%A1%E5%9E%8B/</guid>
+      <description>我想从下面三个方面来了解Device Tree： 1、为何要引入Device Tree，这个机制是用来解决什么问题的？ 2、Device Tree的基</description>
+    </item>
+    
+    <item>
+      <title>linux 内存模型</title>
+      <link>https://zhangqi336.github.io./zh/posts/2019/linux-%E5%86%85%E6%A0%B8%E8%AE%BE%E8%AE%A1/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</link>
+      <pubDate>Wed, 26 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhangqi336.github.io./zh/posts/2019/linux-%E5%86%85%E6%A0%B8%E8%AE%BE%E8%AE%A1/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</guid>
+      <description>Linux内核中有三种内存模型：FLAT memory model， Discontiguous Memory Model，Sparse Memory Model 1. FLAT memory model CPU访问物理地址空间时， 物理地址空间是连续的</description>
+    </item>
     
   </channel>
 </rss>

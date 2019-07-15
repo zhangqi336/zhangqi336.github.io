@@ -6,10 +6,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>文章 - 对于人生和代码的思考 | Hao Jinzhang 博客</title>
+    <title>文章 - linux内核设计 | Hao Jinzhang 博客</title>
 
     
-    <meta name="description" content="对于人生和代码的思考">  
+    <meta name="description" content="linux内核设计">  
 
     
     <meta name="author" content="Hao Jinzhang"> 
@@ -24,17 +24,17 @@
     
     
 <meta itemprop="name" content="文章">
-<meta itemprop="description" content="对于人生和代码的思考">
+<meta itemprop="description" content="linux内核设计">
 
 
     <meta property="og:title" content="文章" />
-<meta property="og:description" content="对于人生和代码的思考" />
+<meta property="og:description" content="linux内核设计" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://zhangqi336.github.io/zh/posts/" />
+<meta property="og:url" content="https://zhangqi336.github.io./zh/posts/" />
 
 
 
-
+<meta property="og:updated_time" content="2019-06-26T00:00:00&#43;00:00"/>
 
 <meta property="og:site_name" content="Hao Jinzhang 博客" />
 
@@ -45,14 +45,14 @@
 
 
 
-<meta property="og:image" content="https://zhangqi336.github.io/images/og-image.png"/>
+<meta property="og:image" content="https://zhangqi336.github.io./images/og-image.png"/>
     
     
     <meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://zhangqi336.github.io/images/og-image.png"/>
+<meta name="twitter:image" content="https://zhangqi336.github.io./images/og-image.png"/>
 
 <meta name="twitter:title" content="文章"/>
-<meta name="twitter:description" content="对于人生和代码的思考"/>
+<meta name="twitter:description" content="linux内核设计"/>
 
     
      
@@ -65,32 +65,32 @@ ga('send', 'pageview');
 <script async src='//www.google-analytics.com/analytics.js'></script>
  
     
-    <link rel="alternate" type="application/rss" href="https://zhangqi336.github.io/zh/posts/index.xml" title="Hao Jinzhang 博客" />
-    <link rel="canonical" href="https://zhangqi336.github.io/zh/posts/"> 
+    <link rel="alternate" type="application/rss" href="https://zhangqi336.github.io./zh/posts/index.xml" title="Hao Jinzhang 博客" />
+    <link rel="canonical" href="https://zhangqi336.github.io./zh/posts/"> 
 
      
 
      
     
-    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://zhangqi336.github.io/images/favicons/apple-touch-icon-57x57.png" />
-<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://zhangqi336.github.io/images/favicons/apple-touch-icon-114x114.png" />
-<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://zhangqi336.github.io/images/favicons/apple-touch-icon-72x72.png" />
-<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://zhangqi336.github.io/images/favicons/apple-touch-icon-144x144.png" />
-<link rel="apple-touch-icon-precomposed" sizes="60x60" href="https://zhangqi336.github.io/images/favicons/apple-touch-icon-60x60.png" />
-<link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://zhangqi336.github.io/images/favicons/apple-touch-icon-120x120.png" />
-<link rel="apple-touch-icon-precomposed" sizes="76x76" href="https://zhangqi336.github.io/images/favicons/apple-touch-icon-76x76.png" />
-<link rel="apple-touch-icon-precomposed" sizes="152x152" href="https://zhangqi336.github.io/images/favicons/apple-touch-icon-152x152.png" />
-<link rel="icon" type="image/png" href="https://zhangqi336.github.io/images/favicons/favicon-196x196.png" sizes="196x196" />
-<link rel="icon" type="image/png" href="https://zhangqi336.github.io/images/favicons/favicon-96x96.png" sizes="96x96" />
-<link rel="icon" type="image/png" href="https://zhangqi336.github.io/images/favicons/favicon-32x32.png" sizes="32x32" />
-<link rel="icon" type="image/png" href="https://zhangqi336.github.io/images/favicons/favicon-16x16.png" sizes="16x16" />
-<link rel="icon" type="image/png" href="https://zhangqi336.github.io/images/favicons/favicon-128.png" sizes="128x128" />
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://zhangqi336.github.io./images/favicons/apple-touch-icon-57x57.png" />
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://zhangqi336.github.io./images/favicons/apple-touch-icon-114x114.png" />
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://zhangqi336.github.io./images/favicons/apple-touch-icon-72x72.png" />
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://zhangqi336.github.io./images/favicons/apple-touch-icon-144x144.png" />
+<link rel="apple-touch-icon-precomposed" sizes="60x60" href="https://zhangqi336.github.io./images/favicons/apple-touch-icon-60x60.png" />
+<link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://zhangqi336.github.io./images/favicons/apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon-precomposed" sizes="76x76" href="https://zhangqi336.github.io./images/favicons/apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon-precomposed" sizes="152x152" href="https://zhangqi336.github.io./images/favicons/apple-touch-icon-152x152.png" />
+<link rel="icon" type="image/png" href="https://zhangqi336.github.io./images/favicons/favicon-196x196.png" sizes="196x196" />
+<link rel="icon" type="image/png" href="https://zhangqi336.github.io./images/favicons/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/png" href="https://zhangqi336.github.io./images/favicons/favicon-32x32.png" sizes="32x32" />
+<link rel="icon" type="image/png" href="https://zhangqi336.github.io./images/favicons/favicon-16x16.png" sizes="16x16" />
+<link rel="icon" type="image/png" href="https://zhangqi336.github.io./images/favicons/favicon-128.png" sizes="128x128" />
 <meta name="msapplication-TileColor" content="#3273dc" />
-<meta name="msapplication-TileImage" content="https://zhangqi336.github.io/images/favicons/mstile-144x144.png" />
-<meta name="msapplication-square70x70logo" content="https://zhangqi336.github.io/images/favicons/mstile-70x70.png" />
-<meta name="msapplication-square150x150logo" content="https://zhangqi336.github.io/images/favicons/mstile-150x150.png" />
-<meta name="msapplication-wide310x150logo" content="https://zhangqi336.github.io/images/favicons/mstile-310x150.png" />
-<meta name="msapplication-square310x310logo" content="https://zhangqi336.github.io/images/favicons/mstile-310x310.png" />
+<meta name="msapplication-TileImage" content="https://zhangqi336.github.io./images/favicons/mstile-144x144.png" />
+<meta name="msapplication-square70x70logo" content="https://zhangqi336.github.io./images/favicons/mstile-70x70.png" />
+<meta name="msapplication-square150x150logo" content="https://zhangqi336.github.io./images/favicons/mstile-150x150.png" />
+<meta name="msapplication-wide310x150logo" content="https://zhangqi336.github.io./images/favicons/mstile-310x150.png" />
+<meta name="msapplication-square310x310logo" content="https://zhangqi336.github.io./images/favicons/mstile-310x310.png" />
 
     
     <link rel="stylesheet" href="/css/bulma.css"> 
@@ -180,12 +180,36 @@ ga('send', 'pageview');
       <div class="columns">
         <div class="column is-8 is-offset-2 has-text-centered">
             <p class="title">文章</p>
-            <p class="subtitle">对于人生和代码的思考</p>
+            <p class="subtitle">linux内核设计</p>
         </div>
       </div>
       <br />
       <div class="columns">
           <div class="column is-8 is-offset-2">
+              
+              <p class="title is-4">2019</p>
+                  
+                  <p class="text is-family-monospace has-text-grey-light">
+  
+2019-06-26
+
+</p>
+<p class="subtitle">
+  <a href="/zh/posts/2019/linux-%E5%86%85%E6%A0%B8%E8%AE%BE%E8%AE%A1/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" itemprop="headline">linux 内存模型</a>
+</p>
+
+                  
+                  <p class="text is-family-monospace has-text-grey-light">
+  
+2019-06-26
+
+</p>
+<p class="subtitle">
+  <a href="/zh/posts/2019/linux-%E5%86%85%E6%A0%B8%E8%AE%BE%E8%AE%A1/%E8%AE%BE%E5%A4%87%E6%A8%A1%E5%9E%8B/" itemprop="headline">linux DTS</a>
+</p>
+
+                  
+              <br />
               
             </div>
       </div>
